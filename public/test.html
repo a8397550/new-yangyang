@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <title>静态文件实例</title>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+
+    var _formData = new FormData();
+    _formData.append("username", "lijunyang");
+    _formData.append("password", '密码')
+
+    // ajax, axios, fetch
+    function ajax(url, type, formData) {
+      if (window.XMLHttpRequest) {
+        var oAjax = new XMLHttpRequest();
+      } else {
+        var oAjax = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+
+      //2.连接服务器（打开和服务器的连接）
+      oAjax.open(type, url, true);
+
+      if (!formData) {
+        oAjax.setRequestHeader('Content-Type', 'application/json');
+      } else {
+        // oAjax.setRequestHeader('Content-Type', 'multipart/form-data;charset=UTF-8;');
+      }
+
+      if (type === 'get') {
+        oAjax.send();
+      } else if (formData) {
+        oAjax.send(formData);
+      } else {
+        oAjax.send(`{"a":1,"b":2,"c":3}`);
+      }
+
+      //4.接收
+      oAjax.onreadystatechange = function () {
+        if (oAjax.readyState == 4) {
+          if (oAjax.status == 200) {
+            //alert('成功了：'+oAjax.responseText);
+            console.log('success', oAjax.responseText);
+          } else {
+            console.log('error', oAjax.responseText);
+          }
+        }
+      };
+    }
+
+    function request(url, type) {
+      var data = {
+        a: 1,
+        b: 2,
+        c: 3
+      };
+      var options = {
+        method: type,
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+
+      if (type === 'get') {
+        delete options.body;
+        delete options.headers;
+      }
+
+      fetch(url, options).then(response => response.text())
+        .then(data => console.log(data))
+        .catch(e => console.log("Oops, error", e))
+    }
+
+    function fileSelect() { // 点按钮触发file的点击事件
+      var fileDom = document.getElementById('file');
+
+      fileDom.onchange = function () {
+        console.log('aaa')
+      }
+      fileDom.addEventListener('change', function () {
+        console.log('bbb')
+      })
+
+      var evt = document.createEvent('MouseEvent');
+      evt.initMouseEvent('click', false, false);
+
+      fileDom.dispatchEvent(evt);
+    }
+
+    function fileUpload() {
+      var fileObj = document.getElementById('file').files[0];
+
+      var form = new FormData(); // FormData 对象
+      form.append("file", fileObj); // 文件对象
+      ajax(`/api/form`, 'post', form);
+    }
+
+    function apiAxios(url, type) {
+      // const request = axios[type]; // axios['get'],axios['post']...
+
+      if (type === 'post') {
+        axios.post(url, {
+          firstName: 'Fred',
+          lastName: 'Flintstone'
+        })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      } else if (type === 'get') {
+        axios.get(url, {
+          params: {
+            ID: 1245
+          }
+        })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      } else if (type === 'put') {
+        axios.put(url, {
+          firstName: 'fse',
+          lastName: 'bsd'
+        })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      } else if (type === 'delete') {
+        axios.delete(url, {
+          params: {
+            ID: 6334
+          }
+        })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+    }
+
+
+    function Bird(Wing) {
+      this.Wing = Wing;
+      this.mouth = function () {
+        console.log('我会飞')
+      }
+    }
+
+    Bird.prototype.xxx = 2;
+    Bird.prototype.a = { xxx: 2 }; // Object， Array
+    Bird.prototype.fn = function () {
+      console.log(this.xxx);
+    }
+
+
+    var bird = new Bird('999');
+    var bird1 = new Bird('888')
+
+    console.log('Wing', bird.Wing);
+    console.log('Wing1', bird1.Wing);
+
+    console.log('xxx', bird.xxx);
+    console.log('xxx1', bird1.xxx);
+
+    bird.xxx = 3;
+
+    console.log('xxx', bird.xxx);
+    console.log('xxx1', bird1.xxx);
+
+    bird.mouth();
+    console.log('xxx', bird.xxx);
+    bird.fn()
+
+
+    console.log('bird.constructor.prototype === Bird.prototype', bird.constructor.prototype === Bird.prototype);
+    console.log('Bird.prototype.constructor === Bird', Bird.prototype.constructor === Bird);
+
+
+  </script>
+</head>
+
+<body>
+  <div id="app">
+    静态文件实例
+    <button onclick="request(`/api`, 'get')">fetch get请求</button>
+    <button onclick="request(`/api`, 'post')">fetch post请求</button>
+    <button onclick="request(`/api`, 'delete')">fetch delete请求</button>
+    <button onclick="request(`/api`, 'put')">fetch put请求</button>
+    <br />
+
+    <button onclick="ajax(`/api`, 'get')">ajax get请求</button>
+    <button onclick="ajax(`/api`, 'post')">ajax post请求</button>
+    <button onclick="ajax(`/api`, 'delete')">ajax delete请求</button>
+    <button onclick="ajax(`/api`, 'put')">ajax put请求</button>
+    <br />
+    <button onclick="ajax(`/api/form`, 'post', _formData)">ajax post formdata 请求</button>
+    <input type=file id="file" />
+    <button onclick="fileSelect()">选择文件</button>
+    <button onclick="fileUpload()">上传文件</button>
+
+    <br />
+    使用axios请求后台，完成/api接口的get，post，put，delete请求，以及/api/form接口的文件上传
+    <br />
+    使用fetch 完成/api/form接口的文件上传
+    <button onclick="apiAxios('/api','get')">axios get请求</button>
+    <button onclick="apiAxios('/api','delete')">axios delete请求</button>
+    <button onclick="apiAxios('/api','post')">axios post请求</button>
+    <button onclick="apiAxios('/api','put')">axios put请求</button>
+
+
+  </div>
+</body>
+
+</html>
