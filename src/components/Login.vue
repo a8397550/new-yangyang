@@ -1,25 +1,29 @@
 <template>
   <div class="Login">
-    <div class="Title">
-      <p class="Content">请确保对所有输入使用适当的类型属性（例如，电子邮件用于电子邮件地址或数字信息的数字），以利用较新的输入控件，如电子邮件验证、数字选择等。</p>
+    <div class="title">
+      <p class="content">请确保对所有输入使用适当的类型属性（例如，电子邮件用于电子邮件地址或数字信息的数字），以利用较新的输入控件，如电子邮件验证、数字选择等。</p>
     </div>
-    <div class="Name">
+    <div class="input_container">
       <p>账号</p>
       <el-input placeholder="请输入名称"
                 v-model="name"
-                clearable></el-input>
+                clearable />
     </div>
-    <div class="Password">
+    <div class="input_container">
       <p>密码</p>
       <el-input placeholder="请输入密码"
                 v-model="password"
-                show-password></el-input>
+                show-password />
+
+    </div>
+    <div class="input_container">
       <p>
         <el-checkbox v-model="checkbox">是否保存密码</el-checkbox>
       </p>
     </div>
-    <div>
-      <el-button type="primary"
+    <div class="input_container">
+      <el-button class="btn_login"
+                 type="primary"
                  @click="login">登入</el-button>
     </div>
   </div>
@@ -32,8 +36,14 @@ const descriptor = {
   name: {
     type: "string",
     required: true,
-    len: 8,
-    message: "账号名必须大于8位"
+    message: "账号名必须大于8位",
+    validator: (rule, value) => {
+      if (value < 8) {
+        return false;
+      }
+
+      return true;
+    }
   },
   password: {
     type: "string",
@@ -114,8 +124,8 @@ export default {
 <style>
 .Login {
   width: 400px;
-  height: 385px;
   border: 1px solid #a1a1a1;
+  padding-bottom: 16px;
 }
 .notify-msg-parent .notify-msg:last-child {
   margin-bottom: 0px;
@@ -123,33 +133,29 @@ export default {
 .notify-msg-parent .notify-msg {
   margin-bottom: 5px;
 }
-.Login .Title {
+.Login .title {
   width: 401px;
   height: 79px;
   border-bottom: 1px solid #a1a1a1;
 }
-.Login .Content {
+.Login .content {
   text-align: center;
   padding-right: 10px;
   padding-left: 10px;
 }
 
-.Login .el-input {
+.Login .input_container .el-input {
   width: 370px;
 }
-.Login .el-button {
+.Login .btn_login {
   float: left;
   margin-left: 15px;
 }
-.Login .Password {
+.Login .input_container {
   overflow: hidden;
 }
-.Login .Password p {
-  float: left;
-  padding-left: 20px;
-}
-.Login .Name p {
-  float: left;
+.Login .input_container p {
+  text-align: left;
   padding-left: 20px;
 }
 </style>

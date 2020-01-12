@@ -35,7 +35,6 @@ app.use(bodyParser.json())   //在其他路由中间件前（尽可能靠前，�
 app.use(bodyParser.urlencoded({ extended: false })) // 调试工具如果出现警告请加上extended: false
 
 
-
 app.get(/\/.*/, function (req, res) {
   console.error(err.stack);
   res.type('text/plain');
