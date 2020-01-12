@@ -2,7 +2,8 @@ import Vue from 'vue'   //引入Vue
 import Router from 'vue-router'  //引入vue-router
 import Hello from './components/HelloParent.vue';
 import HelloA from './components/HelloWorld.vue';
-
+import Login from './components/Login.vue';
+import Register from './components/Register.vue';
 Vue.use(Router)  //Vue全局使用Router
 
 export default new Router({
@@ -16,6 +17,16 @@ export default new Router({
       path: '/foo',         //链接路径
       name: 'Foo',     //路由名称，
       component: HelloA   //对应的组件模板
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register
     }
   ]
 })

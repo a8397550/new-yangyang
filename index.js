@@ -10,6 +10,11 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 let config;
 
 if (process.env.NODE_ENV === 'development') {
+  /**
+   * echo $NODE_ENV // 查看是否有环境变量
+   * export NODE_ENV=development // 设置环境变量
+   * unser NODE_ENV // 删除环境变量
+   */
   config = require('./config/webpack.dev.js');
   console.log('config dev')
 } else {
