@@ -4,6 +4,7 @@ import Hello from './components/HelloParent.vue';
 import HelloA from './components/HelloWorld.vue';
 import Login from './components/Login.vue';
 import Register from './components/Register.vue';
+import Paging from './components/Paging.vue';
 Vue.use(Router)  //Vue全局使用Router
 
 export default new Router({
@@ -27,6 +28,11 @@ export default new Router({
       path: '/register',
       name: 'Register',
       component: Register
-    }
+    },
+    {
+      path: '/paging',
+      name: 'Paging',
+      component: Paging
+    },
   ]
 })
