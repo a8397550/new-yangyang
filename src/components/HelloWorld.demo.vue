@@ -2,21 +2,58 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <el-button>默认按钮</el-button>
-    <el-button type="primary">主要按钮</el-button>
-    <el-button type="success">成功按钮</el-button>
-    <el-button type="info">信息按钮</el-button>
-    <el-button type="warning">警告按钮</el-button>
-    <el-button type="danger">危险按钮</el-button>
+    <el-button @click="ajax"
+               type="primary">主要按钮</el-button>
+    <el-button @click="ajax"
+               type="success">成功按钮</el-button>
+    <el-button @click="ajax"
+               type="info">信息按钮</el-button>
+    <el-button @click="ajax"
+               type="warning">警告按钮</el-button>
+    <el-button @click="ajax"
+               type="danger">危险按钮</el-button>
   </div>
 </template>
 
 <script>
-// import { Button, Select } from 'element-ui';
+import { request } from '../lib/request';
 
 export default {
   name: 'HelloWorld',
+  data: function () {
+    return {
+      input: undefined
+    }
+  },
   props: {
     msg: String
+  },
+  methods: {
+    ajax: async function () {
+      console.log('request');
+      const res = request('/api', {
+        method: 'post',
+        data: {
+          a: 1
+        }
+      });
+
+      const res1 = request('/api', {
+        method: 'post',
+        data: {
+          a: 1
+        }
+      });
+
+      const res2 = request('/api', {
+        method: 'post',
+        data: {
+          a: 1
+        }
+      });
+
+      console.log(res, res1, res2);
+    }
   }
 }
 </script>
