@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "ejs-loader": "^0.3.5",
+    "html-loader": "^0.5.5"
+  }
+}

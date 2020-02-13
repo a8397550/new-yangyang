@@ -9,11 +9,11 @@ module.exports = {
     index: './src/index.js',
   },
   plugins: [
-    new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: 'view/index.html',
-    }),
+    // new CleanWebpackPlugin(),
+    // new HtmlWebpackPlugin({
+    //   filename: 'index.html',
+    //   template: 'view/index.html',
+    // }),
     new VueLoaderPlugin()
   ],
   output: {
@@ -68,7 +68,21 @@ module.exports = {
         use: [
           'xml-loader'
         ]
-      }
+      },
+      // {
+      //   test: /\.html$/,
+      //   use: [{
+      //     loader: 'html-loader',
+      //     options: {
+      //       interpolate: true,
+      //       minimize: false
+      //     }
+      //   }]
+      // }, 
+      // {
+      //   test: /\.ejs/,
+      //   use: ['ejs-loader'],
+      // }
     ],
   }
 };

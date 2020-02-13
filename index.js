@@ -11,6 +11,9 @@ const csrfProtection = csurf({
 })
 var cookie = require('cookie');
 var cookieParser = require('cookie-parser');
+var ejs = require("ejs");
+app.set('views', './view');
+app.set('view engine', 'ejs')
 
 let config;
 
@@ -36,17 +39,23 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json())   //在其他路由中间件前（尽可能靠前，以能够通过bodyPaser获取req.body）
 app.use(bodyParser.urlencoded({ extended: false })) // 调试工具如果出现警告请加上extended: false
 app.use(csrfProtection);
-app.use(function (req, res, next) {
-  const token = req.csrfToken();
-  console.log(token);
-  res.cookie('_csrf_token', token, { maxAge: 60 * 1000, httpOnly: false });
-  next()
-});
+// app.use(function (req, res, next) {
+//   const token = req.csrfToken();
+//   console.log(token);
+//   res.cookie('_csrf_token', token, { maxAge: 60 * 1000, httpOnly: false });
+//   next()
+// });
+
 
 app.use(webpackDevMiddleware(compiler, {
   publicPath: config.output.publicPath
 }));
 
+app.get('/', function (req, res) {
+  ejs.renderFile("./view/index.html", { csrfToken: req.csrfToken() }, function (err, data) {
+    res.end(data)
+  });
+})
 
 app.post('/api/form', multipartMiddleware, function (req, res) {
   const body = req.body;

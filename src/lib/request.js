@@ -1,4 +1,5 @@
 import axios from 'axios';
+import _ from 'lodash';
 
 function addCookie (name, value, expireHours) {
   var cookieString = name + "=" + escape(value);
@@ -42,7 +43,7 @@ export async function request (url, options) {
     timeout: 30000,
     responseType: 'json',
     headers: {
-      'x-xsrf-token': getCookie('_csrf')
+      'x-xsrf-token': _.get(window, 'CONFIG.csrfToken')
     }
   }));
 }
