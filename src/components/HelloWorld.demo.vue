@@ -12,6 +12,9 @@
                type="warning">警告按钮</el-button>
     <el-button @click="ajax"
                type="danger">危险按钮</el-button>
+    <div>
+      <a href="/api/fs/download">文件下载</a>
+    </div>
   </div>
 </template>
 
@@ -31,28 +34,14 @@ export default {
   methods: {
     ajax: async function () {
       console.log('request');
-      const res = request('/api', {
-        method: 'post',
+      const res = request('/api/fs/download', {
+        method: 'get',
         data: {
           a: 1
         }
       });
 
-      const res1 = request('/api', {
-        method: 'post',
-        data: {
-          a: 1
-        }
-      });
-
-      const res2 = request('/api', {
-        method: 'post',
-        data: {
-          a: 1
-        }
-      });
-
-      console.log(res, res1, res2);
+      console.log(res);
     }
   }
 }

@@ -8,7 +8,8 @@ const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const csrfProtection = csurf({
   cookie: true
-})
+});
+const fs = require('fs');
 var cookie = require('cookie');
 var cookieParser = require('cookie-parser');
 var ejs = require("ejs");
@@ -55,6 +56,22 @@ app.get('/', function (req, res) {
   ejs.renderFile("./view/index.html", { csrfToken: req.csrfToken() }, function (err, data) {
     res.end(data)
   });
+})
+
+app.get('/api/fs/download', function (req, res){
+  const json = {a:1, b: 2, c: 3};
+  const str = JSON.stringify(json, null,2);
+  const buff = Buffer.from(str);
+  const len = Buffer.byteLength(buff);
+  
+  res.set({
+     'Content-Type': 'application/octet-stream', // application/octet-stream 表示二进制流
+     'Content-Disposition': 'attachment; filename=' + 'aaa.json', // 设置文件名
+      'Content-Length': len // 字节长度
+  });
+  
+  res.write(buff);
+  res.end();
 })
 
 app.post('/api/form', multipartMiddleware, function (req, res) {
